@@ -6,3 +6,17 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # Force 100% of requests to generate trace IDs
+    export:
+      zipkin:
+        # Note the updated property structure required for Spring Boot 4
+        endpoint: http://localhost:9411/api/v2/spans
